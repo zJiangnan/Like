@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.echo.dao.CustomerDao">
+
+    <resultMap id="BaseResultMap" type="cn.echo.pojo.Customer" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="realname" property="realname" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="selectAll">
+        select * from t_customer
+    </sql>
+
+    <insert id="insertCustomer" parameterType="cn.echo.pojo.Customer">
+        insert into t_customer (id, username, password, realname, address, email, mobile)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{realname,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+      #{mobile,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="userLogin" parameterType="cn.echo.pojo.Customer" resultMap="BaseResultMap">
+        <include refid="selectAll"></include>
+        where username = #{username} and password = #{password}
+    </select>
+
+    <update id="updateCustomer" parameterType="cn.echo.pojo.Customer">
+        update t_customer
+        <set >
+            <if test="password != null and password != ''" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="realname != null and realname != ''" >
+                realname = #{realname,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null and address != ''" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != ''" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null and mobile != ''" >
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

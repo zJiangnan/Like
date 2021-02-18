@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.echo.dao.ProductinfoDao">
+
+    <resultMap id="BaseResultMap" type="cn.echo.pojo.Productinfo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="createtime" property="createtime" jdbcType="DATE" />
+        <result column="marketprice" property="marketprice" jdbcType="DOUBLE" />
+        <result column="sellprice" property="sellprice" jdbcType="DOUBLE" />
+        <result column="categoryid" property="categoryid" jdbcType="INTEGER" />
+        <result column="commend" property="commend" jdbcType="BIT" />
+        <result column="sellcount" property="sellcount" jdbcType="INTEGER" />
+        <result column="productount" property="productount" jdbcType="INTEGER" />
+        <result column="shopid" property="shopid" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="selectAll">
+        select * from t_productinfo
+    </sql>
+
+    <select id="selectProductinfo" parameterType="int" resultMap="BaseResultMap">
+        <include refid="selectAll"></include>
+        where categoryid = #{id}
+    </select>
+
+    <select id="selectProductinfoHots" resultMap="BaseResultMap">
+        <include refid="selectAll"></include>
+        where commend = 1
+    </select>
+</mapper>
